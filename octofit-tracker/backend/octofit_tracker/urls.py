@@ -16,9 +16,18 @@ Including another URLconf
 
 from django.contrib import admin # pyright: ignore[reportMissingModuleSource]
 from django.urls import path, include # pyright: ignore[reportMissingModuleSource]
-from octofit_tracker import urls as app_urls
+from rest_framework import routers
+from . import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'teams', views.TeamViewSet)
+router.register(r'activities', views.ActivityViewSet)
+router.register(r'leaderboard', views.LeaderboardViewSet)
+router.register(r'workouts', views.WorkoutViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('octofit_tracker.urls')),
+    path('api/', include(router.urls)),
+    path('', views.api_root),
 ]
